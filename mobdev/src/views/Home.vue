@@ -3,30 +3,29 @@
     <div class="columns is-mobile is-centered">
     <div class="column is-half">
         <figure class="is-128x128">
-        <img alt="Vue logo" src="../assets/logo.png">
+        <img  class="is-128x128" alt="Vue logo" src="../assets/logo.png">
       </figure>
     </div>
     </div>
-    <div class="columns is-centered is-4">
-      <div class="column is-4 is-clearfix">
-    <dog-api-panel></dog-api-panel>
-      </div>
-      <div class="column is-8">
-         <div class="columns is-multiline is-mobile is-2 is-cenered"
-         v-for="(breed, index) in breeds" :key="index">
-         <template v-if="breed.isActive">
-            <div class="column"
-            v-for="(picture, index) in breed.value.slice(0,limit)" :key="index" >
-              <figure class="image is-128x128">
-                <img  class="image is-128x128" :src="picture">
-              </figure>
-            </div>
-         </template>
-      </div>
+    <div class="columns is-centered">
+      <div class="column is-10 is-clearfix">
+    <dog-api-panel :limit="limit"></dog-api-panel>
       </div>
     </div>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+     <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="true"></b-loading>
+    <div class="columns is-centered" v-if="!isLoading">
+      <b-tabs position="is-centered is-capitalized" v-model="activeTab">
+          <div v-for="(data, index) in breeds" :key="index" >
+            <template v-if="data.isActive">
+                <b-tab-item :label="data.key">
+                <breed-gallery :pictures="data.value" :limit="limit"> </breed-gallery>
+                </b-tab-item>
+            </template>
+         </div>
+        </b-tabs>
+      </div>
+        <HelloWorld msg="Encuentra imágenes asociadas a distintas razas y subrazas de Perros. Hecho con Vue, Buefy."/>
+    </div>
 </template>
 
 <script>
@@ -34,6 +33,7 @@
 import { mapGetters } from 'vuex';
 // Components
 import DogApiPanel from '@/layouts/Panel.vue';
+import BreedGallery from '@/components/BreedGallery.vue';
 import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
@@ -41,16 +41,16 @@ export default {
   components: {
     HelloWorld,
     DogApiPanel,
+    BreedGallery,
   },
   data() {
     return {
-
     };
   },
   created() {
   },
   computed: {
-    ...mapGetters(['breeds', 'limit']),
+    ...mapGetters(['breeds', 'limit', 'isLoading', 'activeTab']),
   },
   methods: {
   },

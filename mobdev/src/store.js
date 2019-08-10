@@ -22,7 +22,8 @@ export default new Vuex.Store({
     },
     isLoading: false,
     selectedBreed: '',
-    limit: '4',
+    limit: 20,
+    activeTab: 0,
   },
   getters: {
     listAllBreeds: state => state.listAllBreeds,
@@ -30,6 +31,8 @@ export default new Vuex.Store({
     limit: state => state.limit,
     byBreed: state => state.byBreed,
     bySubBreed: state => state.bySubBreed,
+    isLoading: state => state.isLoading,
+    activeTab: state => state.activeTab,
   },
   mutations: {
     SET_ALL_BREEDS(state, dataBreeds) {
@@ -50,12 +53,22 @@ export default new Vuex.Store({
     },
     SET_BREED_STATE: (state, { name, value }) => {
       state.breeds[name].isActive = value;
+      if (!value) {
+        state.activeTab -= 1;
+        console.log(state.activeTab);
+      }
     },
     SET_RESET_FILTERS: (state) => {
       state.breeds = {};
     },
     SET_IS_LOADING: (state) => {
       state.isLoading = !state.isLoading;
+    },
+    SET_ACTIVE_TAB: (state) => {
+      state.activeTab = Object.keys(state.breeds).length - 1;
+    },
+    SET_LIMIT: (state, { val }) => {
+      state.limit = val;
     },
   },
   actions: {
@@ -91,9 +104,10 @@ export default new Vuex.Store({
           dogApiService.getImage(breed).then((res) => {
             const data = { key: name, value: res.message, isActive: true };
             commit('PUSH_TO_BREEDS', data);
+            commit('SET_IS_LOADING');
+            commit('SET_ACTIVE_TAB');
           });
         }
-        commit('SET_IS_LOADING');
       }
     },
     TOGGLE_BREED_STATE: ({ commit }, { name, value }) => {
@@ -101,6 +115,9 @@ export default new Vuex.Store({
     },
     RESET_FILTERS({ commit }) {
       commit('SET_RESET_FILTERS');
+    },
+    GET_ACTIVE_TAB({ commit }) {
+      commit('SET_ACTIVE_TAB');
     },
   },
 });
