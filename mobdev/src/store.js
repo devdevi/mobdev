@@ -22,7 +22,7 @@ export default new Vuex.Store({
     },
     isLoading: false,
     selectedBreed: '',
-    limit: 20,
+    limit: 25,
     activeTab: 0,
   },
   getters: {
@@ -55,7 +55,6 @@ export default new Vuex.Store({
       state.breeds[name].isActive = value;
       if (!value) {
         state.activeTab -= 1;
-        console.log(state.activeTab);
       }
     },
     SET_RESET_FILTERS: (state) => {

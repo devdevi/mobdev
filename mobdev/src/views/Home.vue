@@ -14,7 +14,8 @@
     </div>
      <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="true"></b-loading>
     <div class="columns is-centered" v-if="!isLoading">
-      <b-tabs position="is-centered is-capitalized" v-model="activeTab">
+      <div class="column is-10">
+        <b-tabs position="is-centered is-capitalized" size="is-small">
           <div v-for="(data, index) in breeds" :key="index" >
             <template v-if="data.isActive">
                 <b-tab-item :label="data.key">
@@ -24,7 +25,8 @@
          </div>
         </b-tabs>
       </div>
-        <HelloWorld msg="Encuentra imágenes asociadas a distintas razas y subrazas de Perros. Hecho con Vue, Buefy."/>
+      </div>
+        <HelloWorld msg="Hecho con Vue, Buefy."/>
     </div>
 </template>
 
