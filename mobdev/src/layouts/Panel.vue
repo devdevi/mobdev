@@ -18,15 +18,15 @@
       @click="reset">reset all filters</button>
         </b-field>
     </b-field>
-     <b-field grouped >
-          <b-field v-for="(data, index) in breeds" :key="index">
-            <button class="button is-capitalized"
-            :class="[data.isActive ? 'is-primary': 'is-inverted is-outlined']"
-             @click.prevent='hiddenBreed(data.key, data.isActive)'>
-             <span>{{data.key}}</span>
-              </button>
-        </b-field>
-        </b-field>
+            <div class="columns is-multiline">
+              <div class="column" v-for="(data, index) in breeds" :key="index">
+                <button class="button is-capitalized"
+                :class="[data.isActive ? 'is-primary': 'is-inverted is-outlined']"
+                @click.prevent='hiddenBreed(data.key, data.isActive)'>
+                <span>{{data.key}}</span>
+                </button>
+              </div>
+            </div>
     </section>
 </template>
 <script>
